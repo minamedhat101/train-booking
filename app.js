@@ -24,6 +24,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 
+const userRoute = require('./api/routes/users');
+const userTypeRoute = require('./api/routes/userType');
+
+app.use('/user', userRoute);
+app.use('/userType', userTypeRoute);
+
+
 app.get('/', (req, res)=>{
 	console.log('Welcome')
 	res.send('Welcome')
