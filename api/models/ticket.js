@@ -5,12 +5,8 @@ const TicketSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  from: {
-    type: String
-  },
-  to: {
-    type: String
-  },
+  from: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassType' },
+  to: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassType' },
   startTime: {
     type: Date,
     required: true

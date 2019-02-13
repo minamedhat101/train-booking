@@ -85,16 +85,6 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.get('/profile', role(['user']), async (req, res) => {
-  try {
-    return res.status(200).json({ result: req.userData })
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      error: err
-    });
-  }
-});
 
 router.get('/', async (req, res) => {
   try {
@@ -112,21 +102,6 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/profile/:id', async (req, res) => {
-  try {
-    let user = await User.findById(req.params.id).exec();
-    if (user) {
-      return res.status(200).json({ result: user })
-    } else {
-      res.status(404).json({ message: "No valid entry found for provided ID" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      error: err
-    });
-  }
-})
 
 router.get('/:query', async (req, res) => {
   try {
@@ -162,5 +137,24 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+router.patch('/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const updateOps = {};
+    for (const ops of req.body) {
+      updateOps[ops.propName] = ops.value;
+    }
+    let user = await User.update({ _id: id }, { $set: updateOps }).exec();
+    res.status(200).json({
+      message: "user updated",
+      request: {
+        result: user
+      }
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+});
 
 module.exports = router;
