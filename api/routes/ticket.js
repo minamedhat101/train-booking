@@ -125,7 +125,7 @@ router.delete('/:id', (req, res) => {
     .then(result => {
       res.status(200).json({
         message: 'ticket deleted',
-        result: result
+        result: resultx
       });
     })
     .catch(err => {
