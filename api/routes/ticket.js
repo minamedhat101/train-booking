@@ -1,10 +1,7 @@
 const express = require('express');
-const role = require('../middleware/authorize');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const config = require('../../config/database');
 const Ticket = require('../models/ticket');
 const TicketType = require('../models/ticketType');
 const Station = require('../models/station');

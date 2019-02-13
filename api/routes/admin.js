@@ -5,18 +5,18 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 
 const config = require('../../config/database');
-const Emp = require('../models/employee');
+const Admin = require('../models/admin');
 
 router.post('/signup', async (req, res, ) => {
   try {
-    let emp = await Emp.find({ email: req.body.email }).exec();
-    if (emp.length >= 1) {
+    let admin = await Admin.find({ email: req.body.email }).exec();
+    if (admin.length >= 1) {
       return res.status(409).json({
         message: 'Mail exists'
       });
     }
     else {
-      const emp = new Emp({
+      const admin = new Admin({
         nationalID: req.body.nationalID,
         email: req.body.email,
         password: req.body.password,
@@ -25,11 +25,11 @@ router.post('/signup', async (req, res, ) => {
         name: req.body.name,
         phoneNumber: req.body.phoneNumber,
       });
-      let result = await emp.save();
+      let result = await admin.save();
       console.log(result);
       res.status(201).json({
         message: 'Handling POST requests to /employees',
-        emp: result
+        admin: result
       });
     }
 
@@ -40,31 +40,31 @@ router.post('/signup', async (req, res, ) => {
 });
 
 router.post('/login', (req, res) => {
-  Emp.findOne({ email: req.body.email }).exec()
-    .then(emp=> {
-      if (emp.length > 1) {
+  Admin.findOne({ email: req.body.email }).exec()
+    .then(admin=> {
+      if (admin.length > 1) {
         res.status(401).json({
           message: 'Auth Failed'
         });
       }
-      emp.comparePassword(req.body.password, (err, isMatch) => {
+      admin.comparePassword(req.body.password, (err, isMatch) => {
         if (err) {
           res.status(401).json({
             message: 'Auth Failed'
           });
         }
         if (isMatch) {
-          const token = jwt.sign({ data: emp }, config.secret, {
+          const token = jwt.sign({ data: admin }, config.secret, {
             expiresIn: 604800
           });
           res.json({
             success: true,
             token: token,
-            emp: {
-              id: emp._id,
-              name: emp.name,
-              username: emp.username,
-              email: emp.email
+            admin: {
+              id: admin._id,
+              name: admin.name,
+              username: admin.username,
+              email: admin.email
             }
           });
         } else {
@@ -78,7 +78,7 @@ router.post('/login', (req, res) => {
     });
 });
 
-router.get('/profile', role(['emp']), async (req, res) => {
+router.get('/profile', role(['admin']), async (req, res) => {
   try {
     return res.status(200).json({ result: req.userData })
   } catch (err) {
@@ -91,9 +91,9 @@ router.get('/profile', role(['emp']), async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    let emp = await Emp.find().exec();
-    if (emp) {
-      return res.status(200).json({ result: emp })
+    let admin = await Admin.find().exec();
+    if (admin) {
+      return res.status(200).json({ result: admin })
     } else {
       res.status(404).json({ message: "No valid entry found for provided ID" });
     }
@@ -107,9 +107,9 @@ router.get('/', async (req, res) => {
 
 router.get('/profile/:id', async (req, res) => {
   try {
-    let emp = await Emp.findById(req.params.id).exec();
-    if (emp) {
-      return res.status(200).json({ result: emp })
+    let admin = await Admin.findById(req.params.id).exec();
+    if (admin) {
+      return res.status(200).json({ result: admin })
     } else {
       res.status(404).json({ message: "No valid entry found for provided ID" });
     }
@@ -124,9 +124,9 @@ router.get('/profile/:id', async (req, res) => {
 router.get('/:query', async (req, res) => {
   try {
     const query = req.params.query;
-    let emp = await Emp.find({ $or: [{ name: query }, { email: query }, { nationalID: query }] }).exec();
-    if (emp) {
-      return res.status(200).json({ result: emp })
+    let admin = await Admin.find({ nationalID: query }).exec();
+    if (admin) {
+      return res.status(200).json({ result: admin })
     } else {
       res.status(404).json({ message: "No valid entry found for provided query" });
     }
@@ -139,7 +139,7 @@ router.get('/:query', async (req, res) => {
 })
 
 router.delete('/:id', (req, res) => {
-  Emp.remove({ _id: req.params.id })
+  Admin.remove({ _id: req.params.id })
     .exec()
     .then(result => {
       res.status(200).json({
