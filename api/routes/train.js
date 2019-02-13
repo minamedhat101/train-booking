@@ -25,16 +25,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.get('/profile', role(['user']), async (req, res) => {
-  try {
-    return res.status(200).json({ result: req.userData })
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      error: err
-    });
-  }
-});
+
 
 router.get('/', async (req, res) => {
   try {
