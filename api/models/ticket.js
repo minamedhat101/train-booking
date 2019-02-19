@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
-const TicketSchema = mongoose.Schema({
+const SeatsSchema = mongoose.Schema({
   price: {
     type: Number,
     required: true
   },
-  from: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassType' },
-  to: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassType' },
+  from: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
+  to: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
   startTime: {
     type: Date,
     required: true
@@ -20,4 +20,4 @@ const TicketSchema = mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('Ticket', TicketSchema);
+module.exports = mongoose.model('Ticket', SeatsSchema);
