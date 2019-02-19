@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const SeatsSchema = mongoose.Schema({
- 
-  classType: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassType' },
+  classType: {
+    type: Number,
+    enum: [1, 2]
+  },
   train: { type: mongoose.Schema.Types.ObjectId, ref: 'Train' },
-  
   number: {
     type: Number,
     required: true
@@ -12,7 +13,7 @@ const SeatsSchema = mongoose.Schema({
   status: {
     type: Boolean,
     default: true
-  },
+  }
 })
 
 

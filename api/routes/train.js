@@ -1,7 +1,5 @@
 const express = require('express');
 const role = require('../middleware/authorize');
-const jwt = require('jsonwebtoken');
-
 const router = express.Router();
 
 const Train = require('../models/train');
@@ -58,7 +56,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.get('/:query', async (req, res) => {
+router.get('/search/:query', async (req, res) => {
   try {
     const query = req.params.query;
     let train = await Train.find({ $or: [{ number: query }, { status: query }] }).exec();

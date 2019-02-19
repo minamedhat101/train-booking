@@ -120,7 +120,7 @@ router.get('/profile/:id', async (req, res) => {
   }
 })
 
-router.get('/:query', async (req, res) => {
+router.get('/search/:query', async (req, res) => {
   try {
     const query = req.params.query;
     let admin = await Admin.find({ nationalID: query }).exec();

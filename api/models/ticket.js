@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const SeatsSchema = mongoose.Schema({
+const TicketSchema = mongoose.Schema({
   price: {
     type: Number,
     required: true
@@ -15,9 +15,12 @@ const SeatsSchema = mongoose.Schema({
     type: Date,
     required: true
   },
-  classType: { type: mongoose.Schema.Types.ObjectId, ref: 'ClassType' },
+  classType: {
+    type: Number,
+    enum: [1, 2]
+  },
   ticketType: { type: mongoose.Schema.Types.ObjectId, ref: 'TicketType' }
 })
 
 
-module.exports = mongoose.model('Ticket', SeatsSchema);
+module.exports = mongoose.model('Ticket', TicketSchema);

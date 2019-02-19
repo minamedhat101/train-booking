@@ -21,7 +21,7 @@ router.get('/', async (req, res) => {
   })
 
 
-  router.post('/CreateNew', async (req, res) => {
+  router.post('/', async (req, res) => {
     try {
       const station = new Station({
         name: req.body.name, 
