@@ -12,11 +12,11 @@ const app = express();
 mongoose.connect(process.env.DATABASE,
 	{
 		useCreateIndex: true,
-		useNewUrlParser: true 
+		useNewUrlParser: true
 	}, err => {
-	if (err) return console.log(err);
-	console.log('Connected to DB');
-});
+		if (err) return console.log(err);
+		console.log('Connected to DB');
+	});
 
 app.use(cors());
 app.use(morgan('dev'));
@@ -28,16 +28,27 @@ app.use(bodyParser.json());
 const userRoute = require('./api/routes/users');
 const userTypeRoute = require('./api/routes/userType');
 const StationRoute = require('./api/routes/stations');
+const adminRoute = require('./api/routes/admin');
+const employeeRoute = require('./api/routes/employees');
+const seatRoute = require('./api/routes/seat');
+const ticketRoute = require('./api/routes/ticket');
+const ticketTypeRoute = require('./api/routes/ticketType');
+const trainRoute = require('./api/routes/train');
 
 app.use('/user', userRoute);
 app.use('/userType', userTypeRoute);
 app.use('/station', StationRoute);
+app.use('/admin', adminRoute);
+app.use('/train', trainRoute);
+app.use('/employee', employeeRoute);
+app.use('/seat', seatRoute);
+app.use('/ticket', ticketRoute);
+app.use('/ticketType', ticketTypeRoute);
 
-
-app.get('/', (req, res)=>{
+app.get('/', (req, res) => {
 	console.log('Welcome')
 	res.send('Welcome')
-	
+
 })
 
 
