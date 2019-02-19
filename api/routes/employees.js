@@ -54,7 +54,7 @@ router.post('/login', (req, res) => {
           });
         }
         if (isMatch) {
-          const token = jwt.sign({ data: emp }, config.secret, {
+          const token = jwt.sign({ data: emp }, process.env.SECERET, {
             expiresIn: 604800
           });
           res.json({

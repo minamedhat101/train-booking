@@ -9,9 +9,8 @@ dotenv.config({ path: path.join(__dirname, '.env') });
 
 const app = express();
 
-const config = require('./config/database');
 
-mongoose.connect(config.database,
+mongoose.connect(process.env.DATABASE,
 	{
 		useCreateIndex: true,
 		useNewUrlParser: true 

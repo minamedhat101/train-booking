@@ -7,7 +7,7 @@ module.exports = (roles = []) => {
     try {
       console.log(roles)
       const token = req.headers.authorization.split(" ")[1];
-      const decoded = jwt.verify(token, config.secret);
+      const decoded = jwt.verify(token, process.env.SECERET);
       let type = await UserType.findOne({ _id: decoded.data.userType }).exec();
       console.log(type.name)
       let flag = false;
