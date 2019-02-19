@@ -1,10 +1,8 @@
 const express = require('express');
 const role = require('../middleware/authorize');
-const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const config = require('../../config/database');
 const ClassType = require('../models/classType');
 
 router.post('/', async (req, res) => {
