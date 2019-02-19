@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const config = require('../../config/database');
 const TicketType = require('../models/ticketType');
 
 router.post('/', async (req, res) => {

@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 
 const router = express.Router();
 
-const config = require('../../config/database');
 const Train = require('../models/train');
 
 router.post('/', async (req, res) => {
