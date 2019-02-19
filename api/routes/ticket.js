@@ -98,9 +98,9 @@ router.get('/:from/:to', async (req, res) => {
   try {
     const from = req.params.from;
     const to = req.params.to;
-    let stationFrom = await Station.findById(from).exec();
-    let stationTo = await Station.findById(to).exec();
-    let ticket = await Ticket.find({ from: stationFrom, to: stationTo })
+    let stationFrom = await Station.find({name: from}).exec();
+    let stationTo = await Station.find({name: to}).exec();
+    let ticket = await Ticket.find({ from: stationFrom.id, to: stationTo.id })
     .populate('from')
     .populate('to')
     .populate('classType')
