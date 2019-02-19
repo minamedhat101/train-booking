@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const config = require('../../config/database');
 const UserType = require('../models/userType');
 
 module.exports = (roles = []) => {
