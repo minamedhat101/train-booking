@@ -22,5 +22,4 @@ const TicketSchema = mongoose.Schema({
   ticketType: { type: mongoose.Schema.Types.ObjectId, ref: 'TicketType' }
 })
 
-
 module.exports = mongoose.model('Ticket', TicketSchema);
