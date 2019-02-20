@@ -13,6 +13,8 @@ const TripSchema = mongoose.Schema({
     type: Date,
     required: true
   },
+  from: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
+  to: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
 })
 
 module.exports = mongoose.model('Trip', TripSchema);

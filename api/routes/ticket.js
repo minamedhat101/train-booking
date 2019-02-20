@@ -12,8 +12,6 @@ router.post('/', async (req, res) => {
       price: req.body.price,
       from: req.body.from,
       to: req.body.to,
-      startTime: req.body.startTime,
-      arrivelTime: req.body.arrivelTime,
       ticketType: req.body.ticketType,
     });
     let result = await ticket.save();
