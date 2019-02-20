@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const TicketSchema = mongoose.Schema({
+const SingleTripSchema = mongoose.Schema({
   ticket: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' },
   station: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
   status: {
@@ -14,4 +14,4 @@ const TicketSchema = mongoose.Schema({
 })
 
 
-module.exports = mongoose.model('Ticket', TicketSchema);
+module.exports = mongoose.model('SingleTrip', SingleTripSchema);

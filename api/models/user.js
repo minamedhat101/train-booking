@@ -33,8 +33,7 @@ const UserSchema = mongoose.Schema({
     state: String
   },
   dateOfBirth: {
-    type: Date,
-    required: true
+    type: Date
   },
   phoneNumber: {
     type: String,
