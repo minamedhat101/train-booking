@@ -65,64 +65,65 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-// router.get('/:from/:to', async (req, res) => {
-//   try {
-//     const from = req.params.from;
-//     const to = req.params.to;
-//     const date = req.query.date;
-//     const classChosen = req.query.class;
+router.get('/:from/:to', async (req, res) => {
+  try {
+    const from = req.params.from;
+    const to = req.params.to;
+    const date = req.query.date;
+    const classChoosen = req.query.class;
 
-//     let stationFrom = await Station.findOne({ name: from }).exec();
-//     let stationTo = await Station.findOne({ name: to }).exec();
-//     //let ticket = await Ticket.find({ from: stationFrom.id, to: stationTo.id }).exec();
-//     let trip = await trip_ticket.find().populate()
-//         .populate({
-//           path: 'trip',
-//           match: { arrived: false }
-//         })
-//         .populate({
-//           path: 'ticket',
-//           match: { from: stationFrom.id, to: stationTo.id }
-//         })
-//         .exec();
-//     if (date) {
-//       trip.map((val,index,arr)=>{
-//         if(date === 'am') {
-//           let theDate = new Date(val.startTime);
-
-//         }
-//       })
-//     }
-//     else if (classChosen) {
-
-//     }
-//     else if (date && classChosen) {
-
-//     }
-//     else {
-//       let trip = await trip_ticket.find({}).populate()
-//         .populate({
-//           path: 'trip',
-//           match: { arrived: false }
-//         })
-//         .populate({
-//           path: 'ticket',
-//           match: { from: stationFrom.id, to: stationTo.id }
-//         })        .exec();
-//     }
-
-//     if (trip) {
-//       return res.status(200).json({ result: trip })
-//     } else {
-//       res.status(404).json({ message: "No valid entry found for provided query" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({
-//       error: err
-//     });
-//   }
-// })
+    let stationFrom = await Station.findOne({ name: from }).exec();
+    let stationTo = await Station.findOne({ name: to }).exec();
+    //let ticket = await Ticket.find({ from: stationFrom.id, to: stationTo.id }).exec();
+    let trip = await trip_ticket.find().populate()
+      .populate({
+        path: 'trip',
+        match: { arrived: false }
+      })
+      .populate({
+        path: 'ticket',
+        match: { from: stationFrom.id, to: stationTo.id }
+      })
+      .exec();
+    let newArray = [];
+    if (date) {
+      trip.map((val) => {
+        if (date === 'am') {
+          let hour = new Date(val.trip.startTime).getHours();
+          if (hour < 12) {
+            newArray.push(val);
+          }
+          return newArray;
+        }
+        if (date === 'pm') {
+          let hour = new Date(val.startTime).getHours();
+          if (hour > 12) {
+            newArray.push(val);
+          }
+          return newArray;
+        }
+      })
+    }
+    else if (classChoosen) {
+      trip.map((val)=>{
+        if (val.ticket.classType === classChosen) {
+          newArray.push(val)
+        }
+        return newArray;
+      })
+    }
+    if (trip) {
+      return res.status(200).json({ result: trip })
+    } else {
+      res.status(404).json({ message: "No valid entry found for provided query" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  }
+})
 
 router.delete('/:id', (req, res) => {
   Trip.remove({ _id: req.params.id })
