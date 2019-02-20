@@ -10,11 +10,12 @@ const TripSchema = mongoose.Schema({
     required: true
   },
   arrivelTime: {
-    type: Date,
-    required: true
+    type: Date
   },
-  from: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
-  to: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
+  arrived: {
+    type: Boolean,
+    default: false
+  }
 })
 
 module.exports = mongoose.model('Trip', TripSchema);
