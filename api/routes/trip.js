@@ -65,31 +65,6 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.get('/search/:from/:to', async (req, res) => {
-  try {
-    const from = req.params.from;
-    const to = req.params.to;
-    const date = req.query.date;
-    const clasChosen = req.query.class;
-    let trip = await Trip.find({ ticketType: ticketType })
-
-    let trip = await Trip.find({ ticketType: ticketType })
-      .populate('from')
-      .populate('to')
-      .exec();
-    if (trip) {
-      return res.status(200).json({ result: trip })
-    } else {
-      res.status(404).json({ message: "No valid entry found for provided query" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      error: err
-    });
-  }
-})
-
 // router.get('/:from/:to', async (req, res) => {
 //   try {
 //     const from = req.params.from;
@@ -112,7 +87,8 @@ router.get('/search/:from/:to', async (req, res) => {
 //         .exec();
 //     if (date) {
 //       trip.map((val,index,arr)=>{
-//         if() {
+//         if(date === 'am') {
+//           let theDate = new Date(val.startTime);
 
 //         }
 //       })
