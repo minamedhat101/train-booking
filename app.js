@@ -34,6 +34,7 @@ const seatRoute = require('./api/routes/seat');
 const ticketRoute = require('./api/routes/ticket');
 const ticketTypeRoute = require('./api/routes/ticketType');
 const trainRoute = require('./api/routes/train');
+const tripRoute = require('./api/routes/trip');
 
 app.use('/user', userRoute);
 app.use('/userType', userTypeRoute);
@@ -44,6 +45,7 @@ app.use('/employee', employeeRoute);
 app.use('/seat', seatRoute);
 app.use('/ticket', ticketRoute);
 app.use('/ticketType', ticketTypeRoute);
+app.use('/trip', tripRoute);
 
 app.get('/', (req, res) => {
 	console.log('Welcome')
