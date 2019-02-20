@@ -14,7 +14,6 @@ router.post('/', async (req, res) => {
       to: req.body.to,
       startTime: req.body.startTime,
       arrivelTime: req.body.arrivelTime,
-      classType: req.body.classType,
       ticketType: req.body.ticketType,
     });
     let result = await ticket.save();
@@ -34,7 +33,6 @@ router.get('/', async (req, res) => {
     let ticket = await Ticket.find()
     .populate('from')
     .populate('to')
-    .populate('classType')
     .populate('ticketType')
     .exec();
     if (ticket) {
@@ -55,7 +53,6 @@ router.get('/:id', async (req, res) => {
     let ticket = await Ticket.findById(req.params.id)
     .populate('from')
     .populate('to')
-    .populate('classType')
     .populate('ticketType')
     .exec();
     if (ticket) {
@@ -78,7 +75,6 @@ router.get('/:query', async (req, res) => {
     let ticket = await Ticket.find({ ticketType: ticketType })
     .populate('from')
     .populate('to')
-    .populate('classType')
     .populate('ticketType')
     .exec();
     if (ticket) {
@@ -103,7 +99,6 @@ router.get('/:from/:to', async (req, res) => {
     let ticket = await Ticket.find({ from: stationFrom.id, to: stationTo.id })
     .populate('from')
     .populate('to')
-    .populate('classType')
     .populate('ticketType')
     .exec();
     if (ticket) {

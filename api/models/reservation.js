@@ -8,6 +8,8 @@ const ReservationSchema = mongoose.Schema({
     type: Date,
     defalut: Date.now
   },
+  ticket: { type: mongoose.Schema.Types.ObjectId, ref: 'Ticket' }
+
 })
 
 module.exports = mongoose.model('Reservation', ReservationSchema);

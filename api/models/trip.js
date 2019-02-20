@@ -5,7 +5,14 @@ const TripSchema = mongoose.Schema({
     type: Number,
     required: true
   },
-  ticketType: { type: mongoose.Schema.Types.ObjectId, ref: 'TicketType' }
+  startTime: {
+    type: Date,
+    required: true
+  },
+  arrivelTime: {
+    type: Date,
+    required: true
+  },
 })
 
 module.exports = mongoose.model('Trip', TripSchema);
