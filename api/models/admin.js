@@ -32,7 +32,7 @@ const AdminSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    station: { type: mongoose.Schema.Types.ObjectId, ref: 'Admin' },
+    station: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
 })
 
 
