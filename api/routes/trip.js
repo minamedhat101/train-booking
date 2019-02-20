@@ -112,7 +112,9 @@ router.get('/search/:from/:to', async (req, res) => {
 //         .exec();
 //     if (date) {
 //       trip.map((val,index,arr)=>{
+//         if() {
 
+//         }
 //       })
 //     }
 //     else if (classChosen) {

@@ -5,7 +5,6 @@ const router = express.Router();
 
 const Seat = require('../models/seat');
 const Train = require('../models/train');
-const ClassType = require('../models/classType');
 
 router.post('/', async (req, res) => {
   try {
