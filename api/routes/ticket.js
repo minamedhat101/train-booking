@@ -13,6 +13,7 @@ router.post('/', async (req, res) => {
       from: req.body.from,
       to: req.body.to,
       ticketType: req.body.ticketType,
+      classType: req.body.classType,
     });
     let result = await ticket.save();
     console.log(result);
@@ -29,10 +30,10 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     let ticket = await Ticket.find()
-    .populate('from')
-    .populate('to')
-    .populate('ticketType')
-    .exec();
+      .populate('from')
+      .populate('to')
+      .populate('ticketType')
+      .exec();
     if (ticket) {
       return res.status(200).json({ result: ticket })
     } else {
@@ -49,10 +50,10 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     let ticket = await Ticket.findById(req.params.id)
-    .populate('from')
-    .populate('to')
-    .populate('ticketType')
-    .exec();
+      .populate('from')
+      .populate('to')
+      .populate('ticketType')
+      .exec();
     if (ticket) {
       return res.status(200).json({ result: ticket })
     } else {
@@ -71,10 +72,10 @@ router.get('/:query', async (req, res) => {
     const query = req.params.query;
     let ticketType = await TicketType.findById(query).exec();
     let ticket = await Ticket.find({ ticketType: ticketType })
-    .populate('from')
-    .populate('to')
-    .populate('ticketType')
-    .exec();
+      .populate('from')
+      .populate('to')
+      .populate('ticketType')
+      .exec();
     if (ticket) {
       return res.status(200).json({ result: ticket })
     } else {
@@ -92,13 +93,13 @@ router.get('/:from/:to', async (req, res) => {
   try {
     const from = req.params.from;
     const to = req.params.to;
-    let stationFrom = await Station.find({name: from}).exec();
-    let stationTo = await Station.find({name: to}).exec();
+    let stationFrom = await Station.find({ name: from }).exec();
+    let stationTo = await Station.find({ name: to }).exec();
     let ticket = await Ticket.find({ from: stationFrom.id, to: stationTo.id })
-    .populate('from')
-    .populate('to')
-    .populate('ticketType')
-    .exec();
+      .populate('from')
+      .populate('to')
+      .populate('ticketType')
+      .exec();
     if (ticket) {
       return res.status(200).json({ result: ticket })
     } else {
