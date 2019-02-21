@@ -90,7 +90,7 @@ router.get('/:from/:to', async (req, res) => {
     console.log(tickets)
     let trip;
     for (const ticket of tickets) {
-      trip = await trip_ticket.find().populate()
+      trip = await trip_ticket.find({ticket:ticket.id}).populate()
       .populate({
         path: 'trip',
         match: { arrived: false },
