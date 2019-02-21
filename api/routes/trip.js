@@ -68,20 +68,21 @@ router.get('/:from/:to', async (req, res) => {
     const to = req.params.to;
     const date = req.query.date;
     const classChoosen = req.query.class;
-
+    console.log('sda')
     let stationFrom = await Station.findOne({ name: from }).exec();
     let stationTo = await Station.findOne({ name: to }).exec();
-    //let ticket = await Ticket.find({ from: stationFrom.id, to: stationTo.id }).exec();
-    let trip = await trip_ticket.find().populate()
+    let tickets = await Ticket.find({ from: stationFrom.id, to: stationTo.id }).exec();
+    console.log(tickets)
+    let trip;
+    for (const ticket of tickets) {
+      trip = await trip_ticket.find({ticket:ticket.id}).populate()
       .populate({
         path: 'trip',
         match: { arrived: false }
       })
-      .populate({
-        path: 'ticket',
-        match: { from: stationFrom.id, to: stationTo.id }
-      })
       .exec();
+    }
+    
     let newArray = [];
     if (date) {
       trip.map((val) => {

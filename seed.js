@@ -20,9 +20,8 @@ mongoose.connect(process.env.DATABASE,
 		console.log('Connected to DB');
   });
   
-  const trip = new Trip({
-    number: 30,
-    startTime: 1550742294510,
-    train: '5c6c8625621e840017c9731d'
+  const tripTicket = new trip_ticket({
+    trip: '5c6e73c8b528e44828e6cc9b',
+    ticket: '5c6ddc76fdf6600017d7cee0'
   });
-  trip.save();
+  tripTicket.save();
