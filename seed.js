@@ -21,9 +21,8 @@ mongoose.connect(process.env.DATABASE,
   });
   
   const trip = new Trip({
-    number: 20,
-    from: req.body.from,
-    startTime: req.body.startTime,
-    to: req.body.to
+    number: 30,
+    startTime: 1550742294510,
+    train: '5c6c8625621e840017c9731d'
   });
   trip.save();

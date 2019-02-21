@@ -29,8 +29,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     let trip = await Trip.find()
-      .populate('from')
-      .populate('to')
+      .populate('train')
       .exec();
     if (trip) {
       return res.status(200).json({ result: trip })
@@ -48,8 +47,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     let trip = await Trip.findById(req.params.id)
-      .populate('from')
-      .populate('to')
+    .populate('train')
       .exec();
     if (trip) {
       return res.status(200).json({ result: trip })
