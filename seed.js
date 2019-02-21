@@ -20,3 +20,10 @@ mongoose.connect(process.env.DATABASE,
 		console.log('Connected to DB');
   });
   
+  const trip = new Trip({
+    number: 20,
+    from: req.body.from,
+    startTime: req.body.startTime,
+    to: req.body.to
+  });
+  trip.save();
