@@ -28,8 +28,11 @@ router.post('/', async (req, res) => {
 
 router.get('/', async (req, res) => {
   try {
-    let trip = await Trip.find()
-      .populate('train')
+    trip = await trip_ticket.find().populate()
+      .populate({
+        path: 'trip',
+        match: { arrived: false }
+      })
       .exec();
     if (trip) {
       return res.status(200).json({ result: trip })
