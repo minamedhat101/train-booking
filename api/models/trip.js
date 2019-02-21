@@ -15,7 +15,8 @@ const TripSchema = mongoose.Schema({
   arrived: {
     type: Boolean,
     default: false
-  }
+  },
+  train: { type: mongoose.Schema.Types.ObjectId, ref: 'Train' },
 })
 
 module.exports = mongoose.model('Trip', TripSchema);

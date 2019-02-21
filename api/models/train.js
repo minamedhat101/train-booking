@@ -11,6 +11,9 @@ const TrainSchema = mongoose.Schema({
   status: {
     type: Boolean,
     default: true
+  },
+  days: {
+    type: [String]
   }
 })
 

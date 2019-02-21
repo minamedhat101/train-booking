@@ -5,7 +5,7 @@ const SingleTripSchema = mongoose.Schema({
   station: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
   status: {
     type: Boolean,
-    required: true
+    default: false
   },
   sort: {
     type: Number,
