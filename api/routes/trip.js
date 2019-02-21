@@ -33,6 +33,8 @@ router.get('/', async (req, res) => {
         path: 'trip',
         match: { arrived: false }
       })
+      .populate('ticket')
+
       .exec();
     if (trip) {
       return res.status(200).json({ result: trip })
@@ -83,6 +85,7 @@ router.get('/:from/:to', async (req, res) => {
         path: 'trip',
         match: { arrived: false }
       })
+      .populate('ticket')
       .exec();
     }
     
