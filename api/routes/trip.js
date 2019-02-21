@@ -11,9 +11,7 @@ router.post('/', async (req, res) => {
   try {
     const trip = new Trip({
       number: req.body.number,
-      from: req.body.from,
       startTime: req.body.startTime,
-      to: req.body.to,
       train: req.body.train
     });
     let result = await trip.save();
