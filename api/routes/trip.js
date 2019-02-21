@@ -103,6 +103,10 @@ router.get('/:from/:to', async (req, res) => {
         }
       })
       .populate({
+        path:'ticket',
+        poulate: {path: 'from'}
+      })
+      .populate({
         path: 'ticket',
         populate: {
           path: 'from'
