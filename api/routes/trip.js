@@ -99,7 +99,7 @@ router.get('/:from/:to', async (req, res) => {
         path: 'trip',
         match: { arrived: false },
         populate: {
-          path: 'trian'
+          path: 'train'
         }
       })
       .populate({
