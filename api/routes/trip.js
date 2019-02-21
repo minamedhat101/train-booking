@@ -94,16 +94,28 @@ router.get('/:from/:to', async (req, res) => {
     console.log(tickets)
     let trip;
     for (const ticket of tickets) {
-      trip = await trip_ticket.find({ ticket: ticket.id }).populate()
-        .populate({
-          path: 'trip',
-          match: { arrived: false },
-          populate: {
-            path: 'trian'
-          }
-        })
-        .populate('ticket')
-        .exec();
+      trip = await trip_ticket.find().populate()
+      .populate({
+        path: 'trip',
+        match: { arrived: false },
+        populate: {
+          path: 'trian'
+        }
+      })
+      .populate({
+        path: 'ticket',
+        populate: {
+          path: 'from'
+        },
+        populate: {
+          path: 'to'
+        },
+        populate: {
+          path: 'ticketType'
+        }
+      })
+
+      .exec();
     }
 
     let newArray = [];
