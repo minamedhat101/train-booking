@@ -31,9 +31,23 @@ router.get('/', async (req, res) => {
     trip = await trip_ticket.find().populate()
       .populate({
         path: 'trip',
-        match: { arrived: false }
+        match: { arrived: false },
+        populate: {
+          path: 'trian'
+        }
       })
-      .populate('ticket')
+      .populate({
+        path: 'ticket',
+        populate: {
+          path: 'from'
+        },
+        populate: {
+          path: 'to'
+        },
+        populate: {
+          path: 'ticketType'
+        }
+      })
 
       .exec();
     if (trip) {
@@ -52,7 +66,7 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   try {
     let trip = await Trip.findById(req.params.id)
-    .populate('train')
+      .populate('train')
       .exec();
     if (trip) {
       return res.status(200).json({ result: trip })
@@ -80,15 +94,18 @@ router.get('/:from/:to', async (req, res) => {
     console.log(tickets)
     let trip;
     for (const ticket of tickets) {
-      trip = await trip_ticket.find({ticket:ticket.id}).populate()
-      .populate({
-        path: 'trip',
-        match: { arrived: false }
-      })
-      .populate('ticket')
-      .exec();
+      trip = await trip_ticket.find({ ticket: ticket.id }).populate()
+        .populate({
+          path: 'trip',
+          match: { arrived: false },
+          populate: {
+            path: 'trian'
+          }
+        })
+        .populate('ticket')
+        .exec();
     }
-    
+
     let newArray = [];
     if (date) {
       trip.map((val) => {
@@ -109,7 +126,7 @@ router.get('/:from/:to', async (req, res) => {
       })
     }
     else if (classChoosen) {
-      trip.map((val)=>{
+      trip.map((val) => {
         if (val.ticket.classType === classChosen) {
           newArray.push(val)
         }
