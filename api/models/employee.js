@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const EmpSchema = mongoose.Schema({
+const EmployeeSchema = mongoose.Schema({
   nationalID: {
     type: String,
     required: true 
@@ -45,7 +45,7 @@ const EmpSchema = mongoose.Schema({
 });
 
 
-EmpSchema.pre('save', function (next) {
+EmployeeSchema.pre('save', function (next) {
   let Emp = this;
 
   // only hash the password if it has been modified (or is new)
@@ -67,7 +67,7 @@ EmpSchema.pre('save', function (next) {
 });
 
 
-EmpSchema.methods.comparePassword = function (candidatePassword, cb) {
+EmployeeSchema.methods.comparePassword = function (candidatePassword, cb) {
   bcrypt.compare(candidatePassword, this.password, function (err, isMatch) {
     if (err) return cb(err);
     cb(null, isMatch);
@@ -75,4 +75,4 @@ EmpSchema.methods.comparePassword = function (candidatePassword, cb) {
 };
 
 
-module.exports = mongoose.model('Emp', EmpSchema);
+module.exports = mongoose.model('Employee', EmployeeSchema);

@@ -35,6 +35,8 @@ const ticketRoute = require('./api/routes/ticket');
 const ticketTypeRoute = require('./api/routes/ticketType');
 const trainRoute = require('./api/routes/train');
 const tripRoute = require('./api/routes/trip');
+const reservationRoute = require('./api/routes/reservation');
+const singleTripRoute = require('./api/routes/singleTrip');
 
 app.use('/user', userRoute);
 app.use('/userType', userTypeRoute);
@@ -46,6 +48,8 @@ app.use('/seat', seatRoute);
 app.use('/ticket', ticketRoute);
 app.use('/ticketType', ticketTypeRoute);
 app.use('/trip', tripRoute);
+app.use('/reservation', tripRoute);
+app.use('/singleTrip', tripRoute);
 
 app.get('/', (req, res) => {
 	console.log('Welcome')
