@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
         populate: {
           path: 'from',
           path: 'to',
-          path:'ticketType'
+          path: 'ticketType'
         }
       })
 
@@ -77,12 +77,53 @@ router.get('/:id', async (req, res) => {
   }
 })
 
-router.get('/:from/:to', async (req, res) => {
+
+
+let serchData = async (from, to, date, classChoosen) => {
+  let trips = [];
+  if (from) {
+    let stationFrom = await Station.findOne({ name: from }).exec();
+    let tickets = await Ticket.find({ from: stationFrom.id }).exec();
+    for (const ticket of tickets) {
+      trips = await trip_ticket.find({ ticket: ticket.id }).populate()
+        .populate({
+          path: 'trip',
+          match: { arrived: false },
+          populate: {
+            path: 'train'
+          }
+        })
+        .populate({
+          path: 'ticket',
+          populate: {
+            path: 'from',
+            path: 'to',
+            path: 'ticketType'
+          }
+        })
+        .exec();
+    }
+  }
+  if (to) {
+    let stationTo = await Station.findOne({ name: to }).exec();
+    let tickets = await Ticket.find({ to: stationTo.id }).exec();
+
+  }
+  if (date) {
+
+  }
+  if (classChoosen) {
+
+  }
+
+}
+
+router.get('/search', async (req, res) => {
   try {
-    const from = req.params.from;
-    const to = req.params.to;
+    const from = req.query.from;
+    const to = req.query.to;
     const date = req.query.date;
-    const classChoosen = req.query.class;
+    const classChoosen = req.query.classChoosen;
     console.log('sda')
     let stationFrom = await Station.findOne({ name: from }).exec();
     let stationTo = await Station.findOne({ name: to }).exec();
@@ -90,52 +131,67 @@ router.get('/:from/:to', async (req, res) => {
     console.log(tickets)
     let trip;
     for (const ticket of tickets) {
-      trip = await trip_ticket.find({ticket:ticket.id}).populate()
-      .populate({
-        path: 'trip',
-        match: { arrived: false },
-        populate: {
-          path: 'train'
-        }
-      })
-      .populate({
-        path: 'ticket',
-        populate: {
-          path: 'from',
-          path: 'to',
-          path:'ticketType'
-        }
-      })
+      trip = await trip_ticket.find({ ticket: ticket.id }).populate()
+        .populate({
+          path: 'trip',
+          match: { arrived: false },
+          populate: {
+            path: 'train'
+          }
+        })
+        .populate({
+          path: 'ticket',
+          populate: {
+            path: 'from',
+            path: 'to',
+            path: 'ticketType'
+          }
+        })
 
-      .exec();
+        .exec();
     }
 
     let newArray = [];
     if (date) {
-      trip.map((val) => {
+      for (const t of trip) {
         if (date === 'am') {
-          let hour = new Date(val.trip.startTime).getHours();
+          console.log('am')
+          let hour = new Date(t.trip.startTime).getHours();
+          console.log(hour)
           if (hour < 12) {
-            newArray.push(val);
+            newArray.push(t);
           }
-          return newArray;
         }
         if (date === 'pm') {
-          let hour = new Date(val.startTime).getHours();
+          console.log('pm')
+          let hour = new Date(t.trip.startTime).getHours();
+          console.log(hour)
+
           if (hour > 12) {
-            newArray.push(val);
+            newArray.push(t);
           }
-          return newArray;
         }
-      })
+      }
+      trip = newArray
     }
-    else if (classChoosen) {
-      trip.map((val) => {
-        if (val.ticket.classType === classChosen) {
-          newArray.push(val)
+    if (classChoosen) {
+      console.log(trip.length)
+      for (let i = 0; i < trip.length; i++) {
+        console.log('i', i)
+        const t = trip[i];
+        console.log('class')
+        console.log(t.ticket.classType)
+        console.log(classChoosen)
+        if (t.ticket.classType === classChoosen) {
+          newArray.push(t)
+          console.log('y')
+        } else {
+          console.log('n')
+          trip.splice(i, 1);
+
         }
-        return newArray;
-      })
+      }
+      trip = newArray;
     }
     if (trip) {
       return res.status(200).json({ result: trip })
