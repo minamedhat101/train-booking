@@ -8,7 +8,8 @@ router.post('/', async (req, res) => {
   try {
     const train = new Train({
       name: req.body.name,
-      number: req.body.number
+      number: req.body.number,
+      days: req.body.days
     });
     let result = await train.save();
     console.log(result);
