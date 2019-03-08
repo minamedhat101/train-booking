@@ -12,6 +12,7 @@ router.post('/', async (req, res) => {
     const trip = new Trip({
       number: req.body.number,
       startTime: req.body.startTime,
+      arrivelTime:req.body.arrivelTime,
       train: req.body.train
     });
     let result = await trip.save();
