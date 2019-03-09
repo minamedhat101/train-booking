@@ -16,11 +16,11 @@ router.post('/', async (req, res) => {
       User: req.body.User,
       ticket: req.body.ticket
     });
-    let result = await trip.save();
+    let result = await reservation.save();
     console.log(result);
     res.status(201).json({
-      message: 'Handling POST requests to /singletrip',
-      trip: result
+      message: 'Handling POST requests to /reservation',
+      reservation: result
     });
   } catch (err) {
     console.log(err);
