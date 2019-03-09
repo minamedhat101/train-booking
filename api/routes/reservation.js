@@ -9,21 +9,23 @@ const Ticket = require('../models/ticket');
 const User = require('../models/user');
 const Seat = require('../models/seat');
 router.post('/', async (req, res) => {
-    try {
-      const reservation = new Reservation({
-        singleTrip: req.body.singleTrip,
-        Seat: req.body.Seat,
-        User: req.body.User,
-        ticket: req.body.ticket
-      });
-      let result = await trip.save();
-      console.log(result);
-      res.status(201).json({
-        message: 'Handling POST requests to /singletrip',
-        trip: result
-      });
-    } catch (err) {
-      console.log(err);
-      res.status(500).json({ error: err });
-    }
-  });
+  try {
+    const reservation = new Reservation({
+      singleTrip: req.body.singleTrip,
+      Seat: req.body.Seat,
+      User: req.body.User,
+      ticket: req.body.ticket
+    });
+    let result = await trip.save();
+    console.log(result);
+    res.status(201).json({
+      message: 'Handling POST requests to /singletrip',
+      trip: result
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err });
+  }
+});
+
+module.exports = router;
