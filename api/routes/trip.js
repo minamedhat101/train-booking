@@ -92,7 +92,7 @@ let searchData = async (query) => {
         return newDate < 12
       })
       trips = newTrips
-    }
+    } 
     else if (query.date === 'pm') {
       let newTrips = trips.filter((trip) =>{
         let newDate = new Date(trip.trip.startTime).getHours();
