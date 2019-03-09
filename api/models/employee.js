@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const EmployeeSchema = mongoose.Schema({
   nationalID: {
     type: String,
-    required: true 
+    required: true
   },
   email: {
     type: String, required: true, unique: true,
@@ -27,21 +27,27 @@ const EmployeeSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  
+
   phoneNumber: {
     type: String,
     required: true
   },
-  
+
   validation: {
     type: Boolean,
     default: false
   },
-  
- rate:{
-     type: Number,
-     default:0
- },
+
+  rate: {
+    type: Number,
+    default: 0
+  },
+  userType: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserType',
+    default: "5c84029d1f9fa30017c2817e"
+  },
+
 });
 
 

@@ -51,8 +51,11 @@ const UserSchema = mongoose.Schema({
     type: Number,
     default: 0
   },
-  userType: { type: mongoose.Schema.Types.ObjectId, ref: 'UserType' },
-});
+  userType: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserType',
+    default: "5c6c3accf9797a22d9800bcb"
+},});
 
 
 UserSchema.pre('save', function (next) {

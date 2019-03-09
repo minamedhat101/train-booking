@@ -33,6 +33,11 @@ const AdminSchema = mongoose.Schema({
         required: true
     },
     station: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
+    userType: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'UserType',
+        default: "5c8402721f9fa30017c2817c"
+    },
 })
 
 

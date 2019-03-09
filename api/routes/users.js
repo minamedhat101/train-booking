@@ -24,7 +24,6 @@ router.post('/signup', async (req, res, ) => {
         name: req.body.name,
         dateOfBirth: req.body.dateOfBirth,
         phoneNumber: req.body.phoneNumber,
-        userType: '5c6c3accf9797a22d9800bcb',
         address: {
           street: req.body.street,
           city: req.body.city,
