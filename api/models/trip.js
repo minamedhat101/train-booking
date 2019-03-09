@@ -11,6 +11,9 @@ const TripSchema = mongoose.Schema({
   },
   arrivelTime: {
     type: Date
+  }, 
+  arrivedTime: {
+    type: Date
   },
   arrived: {
     type: Boolean,
