@@ -12,7 +12,7 @@ router.post('/', async (req, res) => {
     const trip = new Trip({
       number: req.body.number,
       startTime: req.body.startTime,
-      arrivelTime:req.body.arrivelTime,
+      arrivelTime: req.body.arrivelTime,
       train: req.body.train
     });
     let result = await trip.save();
@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     trip = await Trip.find().populate()
-    .populate({
+      .populate({
         path: 'trip',
         match: { arrived: false },
         populate: {
@@ -71,34 +71,48 @@ router.get('/:id', async (req, res) => {
 
 
 
-let serchData = async (from, to, date, classChoosen) => {
-  let trips = [];
+let searchData = async (from, to, date, classChoosen) => {
+  let trips = await trip_ticket.find({ ticket: ticket.id })
+    .populate({
+      path: 'trip',
+      match: { arrived: false },
+      populate: {
+        path: 'train'
+      }
+    })
+    .populate({
+      path: 'ticket',
+      populate: {
+        path: 'from',
+        path: 'to',
+        path: 'ticketType'
+      }
+    })
+    .exec();
   if (from) {
     let stationFrom = await Station.findOne({ name: from }).exec();
-    let tickets = await Ticket.find({ from: stationFrom.id }).exec();
-    for (const ticket of tickets) {
-      trips = await trip_ticket.find({ ticket: ticket.id }).populate()
-        .populate({
-          path: 'trip',
-          match: { arrived: false },
-          populate: {
-            path: 'train'
-          }
-        })
-        .populate({
-          path: 'ticket',
-          populate: {
-            path: 'from',
-            path: 'to',
-            path: 'ticketType'
-          }
-        })
-        .exec();
-    }
+    trips = await trip_ticket.find({ ticket: ticket.id }).populate()
+      .populate({
+        path: 'trip',
+        match: { arrived: false },
+        populate: {
+          path: 'train'
+        }
+      })
+      .populate({
+        path: 'ticket',
+        populate: {
+          path: 'from',
+          path: 'to',
+          path: 'ticketType'
+        }
+      })
+      .exec();
   }
   if (to) {
     let stationTo = await Station.findOne({ name: to }).exec();
     let tickets = await Ticket.find({ to: stationTo.id }).exec();
+
 
   }
   if (date) {
@@ -112,80 +126,23 @@ let serchData = async (from, to, date, classChoosen) => {
 
 router.get('/search', async (req, res) => {
   try {
-    const from = req.query.from;
-    const to = req.query.to;
-    const date = req.query.date;
-    const classChoosen = req.query.classChoosen;
-    console.log('sda')
-    let stationFrom = await Station.findOne({ name: from }).exec();
-    let stationTo = await Station.findOne({ name: to }).exec();
-    let tickets = await Ticket.find({ from: stationFrom.id, to: stationTo.id }).exec();
-    console.log(tickets)
-    let trip;
-    for (const ticket of tickets) {
-      trip = await trip_ticket.find({ ticket: ticket.id }).populate()
-        .populate({
-          path: 'trip',
-          match: { arrived: false },
-          populate: {
-            path: 'train'
-          }
-        })
-        .populate({
-          path: 'ticket',
-          populate: {
-            path: 'from',
-            path: 'to',
-            path: 'ticketType'
-          }
-        })
-
-        .exec();
-    }
-
-    let newArray = [];
-    if (date) {
-      for (const t of trip) {
-        if (date === 'am') {
-          console.log('am')
-          let hour = new Date(t.trip.startTime).getHours();
-          console.log(hour)
-          if (hour < 12) {
-            newArray.push(t);
-          }
+    let trips = await trip_ticket.find()
+      .populate({
+        path: 'trip',
+        match: { arrived: false },
+        populate: {
+          path: 'train'
         }
-        if (date === 'pm') {
-          console.log('pm')
-          let hour = new Date(t.trip.startTime).getHours();
-          console.log(hour)
-
-          if (hour > 12) {
-            newArray.push(t);
-          }
+      })
+      .populate({
+        path: 'ticket',
+        populate: {
+          path: 'from',
+          path: 'to',
+          path: 'ticketType'
         }
-      }
-      trip = newArray
-    }
-    if (classChoosen) {
-      console.log(trip.length)
-      for (let i = 0; i < trip.length; i++) {
-        console.log('i', i)
-        const t = trip[i];
-        console.log('class')
-        console.log(t.ticket.classType)
-        console.log(classChoosen)
-        if (t.ticket.classType === classChoosen) {
-          newArray.push(t)
-          console.log('y')
-        } else {
-          console.log('n')
-          trip.splice(i, 1);
-
-        }
-      }
-      trip = newArray;
-    }
-    if (trip) {
+      })
+    if (trips) {
       return res.status(200).json({ result: trip })
     } else {
       res.status(404).json({ message: "No valid entry found for provided query" });
