@@ -74,21 +74,38 @@ let searchData = async (query) => {
     })
     .exec()
   if (query.from) {
-    let newTrips = trips.forEach((trip)=>{
-      if(trip.ticket.from.name === query.from) {
-        return trip;
-      }
-    })
+    let newTrips = trips.filter((trip) =>
+      trip.ticket.from.name === query.from
+    )
     trips = newTrips
   }
   if (query.to) {
-
+    let newTrips = trips.filter((trip) =>
+      trip.ticket.to.name === query.to
+    )
+    trips = newTrips
   }
   if (query.date) {
-
+    if (query.date === 'am') {
+      let newTrips = trips.filter((trip) =>{
+        let newDate = new Date(trip.trip.startTime).getHours();
+        return newDate < 12
+      })
+      trips = newTrips
+    }
+    else if (query.date === 'pm') {
+      let newTrips = trips.filter((trip) =>{
+        let newDate = new Date(trip.trip.startTime).getHours();
+        return newDate >= 12
+      })
+      trips = newTrips
+    }
   }
   if (query.classChoosen) {
-
+    let newTrips = trips.filter((trip) =>
+      trip.ticket.classType.toString() === query.classChoosen
+    )
+    trips = newTrips
   }
   return trips;
 }
@@ -101,7 +118,7 @@ router.get('/search', async (req, res) => {
       date: req.query.date,
       classChoosen: req.query.classChoosen
     }
-    searchData(query);
+    let trips = await searchData(query);
     if (trips) {
       return res.status(200).json({ result: trips })
     } else {
