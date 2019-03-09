@@ -56,7 +56,7 @@ router.get('/', async (req, res) => {
 
 
 let searchData = async (from, to, date, classChoosen) => {
-  let trips = await trip_ticket.find({ ticket: ticket.id })
+  let trips = await trip_ticket.find()
     .populate({
       path: 'trip',
       match: { arrived: false },
@@ -66,37 +66,22 @@ let searchData = async (from, to, date, classChoosen) => {
     })
     .populate({
       path: 'ticket',
-      populate: {
-        path: 'from',
-        path: 'to',
-        path: 'ticketType'
+      populate: [
+        'from',
+        'to',
+        'ticketType'
+      ]
+    })
+    .exec()
+  if (from) {
+    let newTrips = trips.forEach((trip)=>{
+      if(trip.ticket.from.name === from) {
+        return trip;
       }
     })
-    .exec();
-  if (from) {
-    let stationFrom = await Station.findOne({ name: from }).exec();
-    trips = await trip_ticket.find({ ticket: ticket.id }).populate()
-      .populate({
-        path: 'trip',
-        match: { arrived: false },
-        populate: {
-          path: 'train'
-        }
-      })
-      .populate({
-        path: 'ticket',
-        populate: {
-          path: 'from',
-          path: 'to',
-          path: 'ticketType'
-        }
-      })
-      .exec();
+    trips = newTrips
   }
   if (to) {
-    let stationTo = await Station.findOne({ name: to }).exec();
-    let tickets = await Ticket.find({ to: stationTo.id }).exec();
-
 
   }
   if (date) {
@@ -105,27 +90,12 @@ let searchData = async (from, to, date, classChoosen) => {
   if (classChoosen) {
 
   }
-
+  return trips;
 }
 
 router.get('/search', async (req, res) => {
   try {
-    let trips = await trip_ticket.find()
-      .populate({
-        path: 'trip',
-        match: { arrived: false },
-        populate: {
-          path: 'train'
-        }
-      })
-      .populate({
-        path: 'ticket',
-        populate: [
-          'from',
-          'to',
-          'ticketType'
-      ]
-      })
+
     if (trips) {
       return res.status(200).json({ result: trips })
     } else {
