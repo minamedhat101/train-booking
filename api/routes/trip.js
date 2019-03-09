@@ -30,7 +30,7 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     trip = await trip_ticket.find().populate()
-      .populate({
+    .populate({
         path: 'trip',
         match: { arrived: false },
         populate: {

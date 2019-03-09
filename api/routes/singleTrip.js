@@ -4,8 +4,6 @@ const role = require('../middleware/authorize');
 
 const router = express.Router();
 const SingleTrip = require('../models/singleTrip');
-const Station = require('../models/station');
-const trip = require('../models/trip');
 
 
 router.post('/', async (req, res) => {

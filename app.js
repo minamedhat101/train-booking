@@ -48,8 +48,8 @@ app.use('/seat', seatRoute);
 app.use('/ticket', ticketRoute);
 app.use('/ticketType', ticketTypeRoute);
 app.use('/trip', tripRoute);
-app.use('/reservation', tripRoute);
-app.use('/singleTrip', tripRoute);
+app.use('/reservation', reservationRoute);
+app.use('/singleTrip', singleTripRoute);
 
 app.get('/', (req, res) => {
 	console.log('Welcome')
