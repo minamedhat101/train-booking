@@ -120,11 +120,11 @@ router.get('/search', async (req, res) => {
       })
       .populate({
         path: 'ticket',
-        populate: {
-          path: 'from',
-          path: 'to',
-          path: 'ticketType'
-        }
+        populate: [
+          'from',
+          'to',
+          'ticketType'
+      ]
       })
     if (trips) {
       return res.status(200).json({ result: trips })
