@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
 
 
 
-let searchData = async (from, to, date, classChoosen) => {
+let searchData = async (query) => {
   let trips = await trip_ticket.find()
     .populate({
       path: 'trip',
@@ -73,21 +73,21 @@ let searchData = async (from, to, date, classChoosen) => {
       ]
     })
     .exec()
-  if (from) {
+  if (query.from) {
     let newTrips = trips.forEach((trip)=>{
-      if(trip.ticket.from.name === from) {
+      if(trip.ticket.from.name === query.from) {
         return trip;
       }
     })
     trips = newTrips
   }
-  if (to) {
+  if (query.to) {
 
   }
-  if (date) {
+  if (query.date) {
 
   }
-  if (classChoosen) {
+  if (query.classChoosen) {
 
   }
   return trips;
@@ -95,7 +95,13 @@ let searchData = async (from, to, date, classChoosen) => {
 
 router.get('/search', async (req, res) => {
   try {
-
+    let query = {
+      from: req.query.from,
+      to: req.query.to,
+      date: req.query.date,
+      classChoosen: req.query.classChoosen
+    }
+    searchData(query);
     if (trips) {
       return res.status(200).json({ result: trips })
     } else {
