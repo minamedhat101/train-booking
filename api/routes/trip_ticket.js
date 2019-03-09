@@ -6,7 +6,7 @@ const trip_ticket = require('../models/trip_ticket');
 
 router.post('/', async (req, res) => {
   try {
-    const trip = new Trip({
+    const trip = new trip_ticket({
       trip: req.body.trip,
       ticket: req.body.ticket,
     });
