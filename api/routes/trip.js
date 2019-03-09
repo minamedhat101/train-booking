@@ -51,23 +51,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.get('/:id', async (req, res) => {
-  try {
-    let trip = await Trip.findById(req.params.id)
-      .populate('train')
-      .exec();
-    if (trip) {
-      return res.status(200).json({ result: trip })
-    } else {
-      res.status(404).json({ message: "No valid entry found for provided ID" });
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({
-      error: err
-    });
-  }
-})
+
 
 
 
@@ -146,6 +130,24 @@ router.get('/search', async (req, res) => {
       return res.status(200).json({ result: trip })
     } else {
       res.status(404).json({ message: "No valid entry found for provided query" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  }
+})
+
+router.get('/:id', async (req, res) => {
+  try {
+    let trip = await Trip.findById(req.params.id)
+      .populate('train')
+      .exec();
+    if (trip) {
+      return res.status(200).json({ result: trip })
+    } else {
+      res.status(404).json({ message: "No valid entry found for provided ID" });
     }
   } catch (err) {
     console.log(err);
