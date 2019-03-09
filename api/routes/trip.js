@@ -126,9 +126,11 @@ router.get('/search', async (req, res) => {
           path: 'ticketType'
         }
       })
-      return res.status(200).json({ result: trip })
+    if (trips) {
+      return res.status(200).json({ result: trips })
+    } else {
       res.status(404).json({ message: "No valid entry found for provided query" });
-    
+    }
   } catch (err) {
     console.log(err);
     res.status(500).json({
