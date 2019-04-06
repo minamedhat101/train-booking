@@ -24,5 +24,23 @@ router.post('/', async (req, res) => {
     res.status(500).json({ error: err });
   }
 });
+router.get('/', async (req, res) => {
+  try {
+    let singleTrip = await singleTrip.find()
+      .populate('trip')
+      .populate('station')
+      .exec();
+    if (singleTrip) {
+      return res.status(200).json({ result: singleTrip })
+    } else {
+      res.status(404).json({ message: "No valid entry found for provided ID" });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: err
+    });
+  }
+});
 
 module.exports = router;
