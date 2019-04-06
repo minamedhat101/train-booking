@@ -30,7 +30,7 @@ const AdminSchema = mongoose.Schema({
     },
     phoneNumber: {
         type: String,
-        required: true
+        required: false
     },
     station: { type: mongoose.Schema.Types.ObjectId, ref: 'Station' },
     userType: {
