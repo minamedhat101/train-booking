@@ -44,7 +44,7 @@ router.post('/signup', async (req, res, ) => {
   }
 });
 
-router.post('/login', (req, res) => {
+router.post('/signin', (req, res) => {
   User.findOne({ email: req.body.email }).exec()
     .then(user => {
       if (user.length > 1) {
